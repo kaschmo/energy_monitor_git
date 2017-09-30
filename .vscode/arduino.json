@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "energy_monitor_git.ino",
+    "port": "/dev/cu.usbmodem1421"
+}
