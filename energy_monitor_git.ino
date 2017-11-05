@@ -59,6 +59,5 @@ void loop()
      CT2_power_RA.clear();
      CT3_power_RA.clear();
      
-     
     }
 }
