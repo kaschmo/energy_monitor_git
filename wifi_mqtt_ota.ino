@@ -6,18 +6,18 @@ void setup_wifi() {
     delay(10);
     // check for the presence of the shield:
     if (WiFi.status() == WL_NO_SHIELD) {
-      Serial.println("WiFi shield not present");
+      Serial.println(F("WiFi shield not present"));
       // don't continue:
       while (true);
     }
   
     String fv = WiFi.firmwareVersion();
     if (fv != "1.1.0") {
-      Serial.println("Please upgrade the firmware");
+      //Serial.println("Please upgrade the firmware");
     }
      // attempt to connect to Wifi network:
      while (status != WL_CONNECTED) {
-      Serial.print("Attempting to connect to WPA SSID: ");
+      Serial.print(F("Attempting to connect to WPA SSID: "));
       Serial.println(ssid);
       // Connect to WPA/WPA2 network:
       status = WiFi.begin(ssid, password);
@@ -26,15 +26,15 @@ void setup_wifi() {
       delay(5000);
     }
 
-    Serial.print("Connected to network");
-    Serial.print("SSID: ");
+    Serial.print(F("Connected to network"));
+    Serial.print(F("SSID: "));
     Serial.println(WiFi.SSID());
-    Serial.println("IP address: ");
+    Serial.println(F("IP address: "));
     Serial.println(WiFi.localIP());
   }
 
   void callback(char* topic, byte* payload, unsigned int length) {
-    Serial.print("Message arrived [");
+    Serial.print(F("Message arrived ["));
     Serial.print(topic);
     Serial.print("] ");
     for (int i=0;i<length;i++) {
@@ -53,7 +53,7 @@ void setup_wifi() {
    }
 
    if (!strcmp(cmnd, "tset")) {
-    Serial.print("Received new temperature setpoint: ");
+    Serial.print(F("Received new temperature setpoint: "));
     //dummy only.
     }
 
@@ -62,20 +62,20 @@ void setup_wifi() {
   void reconnect() {
     // Loop until we're reconnected
     while (!client.connected()) {
-      Serial.print("Attempting MQTT connection to ");
+      Serial.print(F("Attempting MQTT connection to "));
       Serial.println(mqtt_server);
       // Attempt to connect
       if (client.connect(mqtt_id)) {
-        Serial.println("connected");
+        Serial.println(F("connected"));
         // Once connected, publish an announcement...
         client.publish(outTopic,"Energy Monitor booted");
         // ... and resubscribe
         client.subscribe(inTopic);
         send_status();
       } else {
-        Serial.print("failed, rc=");
+        Serial.print(F("failed, rc="));
         Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
+        Serial.println(F(" try again in 5 seconds"));
         // Wait 5 seconds before retrying
         delay(5000);
       }

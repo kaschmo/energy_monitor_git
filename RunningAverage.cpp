@@ -41,7 +41,7 @@
 RunningAverage::RunningAverage(const uint8_t size)
 {
   _size = size;
-  _ar = (float*) malloc(_size * sizeof(float));
+  _ar = (unsigned int*) malloc(_size * sizeof(unsigned int));//Smo171001:changedtoint
   if (_ar == NULL) _size = 0;
   clear();
 }
@@ -56,17 +56,17 @@ void RunningAverage::clear()
 {
   _cnt = 0;
   _idx = 0;
-  _sum = 0.0;
+  _sum = 0;
   _min = NAN;
   _max = NAN;
   for (uint8_t i = 0; i < _size; i++)
   {
-    _ar[i] = 0.0; // keeps addValue simpler
+    _ar[i] = 0; // keeps addValue simpler
   }
 }
 
 // adds a new value to the data-set
-void RunningAverage::addValue(const float value)
+void RunningAverage::addValue(const unsigned int value)//changtoflat
 {
   if (_ar == NULL) return;  // allocation error
 
@@ -134,7 +134,7 @@ float RunningAverage::getMaxInBuffer() const
 
 
 // returns the value of an element if exist, NAN otherwise
-float RunningAverage::getElement(uint8_t idx) const
+unsigned int RunningAverage::getElement(uint8_t idx) const
 {
   if (idx >=_cnt ) return NAN;
 
@@ -172,16 +172,5 @@ float RunningAverage::getStandardError() const //++
   return temp;
 }
 
-// fill the average with a value
-// the param number determines how often value is added (weight)
-// number should preferably be between 1 and size
-void RunningAverage::fillValue(const float value, const uint8_t number)
-{
-  clear(); // TODO conditional?  if (clr) clear();
 
-  for (uint8_t i = 0; i < number; i++)
-  {
-    addValue(value);
-  }
-}
 // END OF FILE
